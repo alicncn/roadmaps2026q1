@@ -1,0 +1,175 @@
+Code Review Complete! 📚
+This feedback should help you improve your skills.
+
+⛔️ The feedback uses Qwen/Qwen2.5-Coder-32B-Instruct to compare your response to a gold standard solution. As we know, LLMs are not perfect. You should compare your work against the assessment criteria if you doubt the feedback.
+
+Here's your detailed feedback:### Question 1: Create a Basic Code Agent with Web Search Capability
+
+Your Solution:
+
+# Create a CodeAgent with DuckDuckGo search capability
+from smolagents import CodeAgent, DuckDuckGoSearchTool
+
+agent = CodeAgent(
+    tools=[DuckDuckGoSearchTool()],  # Add search tool here
+    model=HfApiModel(
+        max_tokens=2096,
+        temperature=0.5,
+        model_id="Qwen/Qwen2.5-Coder-32B-Instruct",
+        custom_role_conversions=None,
+    ),  # Add model here
+)
+Reference Solution:
+
+from smolagents import CodeAgent, DuckDuckGoSearchTool, HfApiModel
+
+agent = CodeAgent(
+    tools=[DuckDuckGoSearchTool()],
+    model=HfApiModel("Qwen/Qwen2.5-Coder-32B-Instruct")
+)
+Assessment Criteria:
+Correct imports are included
+DuckDuckGoSearchTool is added to tools list
+HfApiModel is properly configured
+Model ID is correctly specified
+Feedback:
+Unable to generate detailed feedback due to an error.
+
+Question 2: Set Up a Multi-Agent System with Manager and Web Search Agents
+Your Solution:
+
+from smolagents import (
+    ToolCallingAgent,
+    GoogleSearchTool,
+    InferenceClientModel,
+    VisitWebpageTool,
+)
+
+# Create web agent and manager agent structure
+model = InferenceClientModel(
+    "Qwen/Qwen2.5-Coder-32B-Instruct", provider="together", max_tokens=8096
+)
+web_agent = ToolCallingAgent(
+    tools=[
+        GoogleSearchTool(provide="serper"),
+        VisitWebpageTool(),
+    ],  # Add required tools
+    model=model,  # Add model
+    max_steps=10,  # Adjust steps
+    name="web_agent",  # Add name
+    description="Browses the web to find information",  # Add description
+)
+
+manager_agent = CodeAgent()
+Reference Solution:
+
+web_agent = ToolCallingAgent(
+    tools=[DuckDuckGoSearchTool(), visit_webpage],
+    model=model,
+    max_steps=10,
+    name="search",
+    description="Runs web searches for you."
+)
+
+manager_agent = CodeAgent(
+    tools=[],
+    model=model,
+    managed_agents=[web_agent],
+    additional_authorized_imports=["time", "numpy", "pandas"]
+)
+Assessment Criteria:
+Web agent has correct tools configured
+Manager agent properly references web agent
+Appropriate max_steps value is set
+Required imports are authorized
+Feedback:
+Unable to generate detailed feedback due to an error.
+
+Question 3: Configure Agent Security Settings
+Your Solution:
+
+# Set up secure code execution environment
+from smolagents import CodeAgent, InferenceClientModel
+
+agent = CodeAgent(
+    tools=[],
+    model=InferenceClientModel(),
+    executor_type="e2b",
+    additional_authorized_imports=["numpy", "pandas"],
+)
+Reference Solution:
+
+from smolagents import CodeAgent, E2BSandbox
+
+agent = CodeAgent(
+    tools=[],
+    model=model,
+    sandbox=E2BSandbox(),
+    additional_authorized_imports=["numpy"]
+)
+Assessment Criteria:
+E2B sandbox is properly configured
+Authorized imports are appropriately limited
+Security settings are correctly implemented
+Basic agent configuration is maintained
+Feedback:
+Unable to generate detailed feedback due to an error.
+
+Question 4: Implement a Tool-Calling Agent
+Your Solution:
+
+# Create a tool-calling agent
+from smolagents import ToolCallingAgent, GoogleSearchTool, VisitWebpageTool
+
+agent = ToolCallingAgent(
+    model=model,
+    tools=[GoogleSearchTool(), VisitWebpageTool()]
+    additional_authorized_imports=["pandas"],
+    max_steps=20,
+)
+Reference Solution:
+
+from smolagents import ToolCallingAgent
+
+agent = ToolCallingAgent(
+    tools=[custom_tool],
+    model=model,
+    max_steps=5,
+    name="tool_agent",
+    description="Executes specific tools based on input"
+)
+Assessment Criteria:
+Tools are properly configured
+Step limit is set appropriately
+Agent name and description are provided
+Basic configuration is complete
+Feedback:
+Unable to generate detailed feedback due to an error.
+
+Question 5: Set Up Model Integration
+Your Solution:
+
+# Configure model integration
+from smolagents import HfApiModel
+
+model = HfApiModel(
+    max_tokens=2096,
+    temperature=0.5,
+    model_id="Qwen/Qwen2.5-Coder-32B-Instruct",
+)
+Reference Solution:
+
+from smolagents import HfApiModel, LiteLLMModel
+
+# Hugging Face model
+hf_model = HfApiModel("Qwen/Qwen2.5-Coder-32B-Instruct")
+
+# Alternative model via LiteLLM
+other_model = LiteLLMModel("anthropic/claude-3-sonnet")
+Assessment Criteria:
+Correct model imports are included
+Model is properly initialized
+Model ID is correctly specified
+Alternative model option is provided
+Feedback:
+Unable to generate detailed feedback due to an error.
