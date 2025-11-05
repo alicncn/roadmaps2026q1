@@ -2,7 +2,7 @@
 import datasets
 from langchain_core.documents import Document
 from langchain_community.retrievers import BM25Retriever
-from langchain.tools import Tool
+from langchain_core.tools import tool
 
 
 # Load documents once at module level
@@ -30,7 +30,8 @@ _docs = _load_guest_documents()
 _bm25_retriever = BM25Retriever.from_documents(_docs)
 
 
-def _retrieve_guest_info(query: str) -> str:
+@tool
+def guest_info_retriever(query: str) -> str:
     """Retrieves detailed information about gala guests based on their name or relation."""
     try:
         results = _bm25_retriever.invoke(query)
@@ -42,8 +43,4 @@ def _retrieve_guest_info(query: str) -> str:
 
 
 # Export the guest info tool
-guest_info_tool = Tool(
-    name="guest_info_retriever",
-    func=_retrieve_guest_info,
-    description="Retrieves detailed information about gala guests based on their name or relation."
-)
+guest_info_tool = guest_info_retriever
