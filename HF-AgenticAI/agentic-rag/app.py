@@ -3,13 +3,13 @@ import os
 from typing import TypedDict, Annotated
 
 from langgraph.graph.message import add_messages
-from langchain_core.messages import AnyMessage
+from langchain_core.messages import AnyMessage, HumanMessage
 from langgraph.prebuilt import ToolNode
 from langgraph.graph import START, StateGraph
 from langgraph.prebuilt import tools_condition
 from langchain_huggingface import HuggingFaceEndpoint, ChatHuggingFace
 
-from tools import search_tool, weather_info_tool, hub_stats_tool
+from tools import search_tool, weather_info_tool, hub_stats_tool  # ✅ Fixed import
 from retriever import guest_info_tool
 
 
@@ -59,8 +59,6 @@ if __name__ == "__main__":
     alfred = create_alfred_agent(HUGGINGFACEHUB_API_TOKEN)
     
     # Example usage
-    from langchain_core.messages import HumanMessage
-    
     messages = [HumanMessage(content="Tell me about our guest named 'Lady Ada Lovelace'.")]
     response = alfred.invoke({"messages": messages})
     
